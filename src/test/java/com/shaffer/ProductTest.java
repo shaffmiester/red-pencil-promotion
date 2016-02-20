@@ -9,13 +9,24 @@ import static org.junit.Assert.*;
  */
 public class ProductTest {
 
+    Double initialPrice = Double.valueOf("10.00");
+
     @Test
     public void hasAConstructorThatAllowsYouToSetThePrice(){
-        Double price = Double.valueOf("10.00");
+        Product product = new Product(initialPrice);
 
-        Product product = new Product(price);
+        assertEquals(initialPrice, product.getPrice());
+    }
 
-        assertEquals(price, product.getPrice());
+    @Test
+    public void allowsYouToSetThePrice(){
+        Double newPrice = Double.valueOf("15.00");
+        Product product = new Product(initialPrice);
+
+        product.setPrice(newPrice);
+
+        assertEquals(newPrice, product.getPrice());
+
     }
 
 }

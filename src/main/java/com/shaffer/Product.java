@@ -14,4 +14,8 @@ public class Product {
     public Double getPrice(){
         return this.price;
     }
+
+    public void setPrice(double price){
+        this.price = price;
+    }
 }
