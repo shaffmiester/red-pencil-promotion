@@ -33,11 +33,40 @@ public class RedPencilPromoterTest {
     }
 
     @Test
-    public void qualifiesForPromotionReturnsTrueIfAPriceIs5PercentLower(){
+    public void qualifiesForPromotionReturnsTrueIfnewPriceIsExactly5PercentLower(){
         Product product = new Product(Double.valueOf(10.00));
 
         boolean result = redPencilPromoter.qualifiesForPromotion(product, Double.valueOf(9.50));
 
         assertTrue(result);
     }
+
+    @Test
+    public void qualifiesForPromotionReturnsFalseIfnewPriceOneCentLessThan5PercentLower(){
+        Product product = new Product(Double.valueOf(10.00));
+
+        boolean result = redPencilPromoter.qualifiesForPromotion(product, Double.valueOf(9.51));
+
+        assertFalse(result);
+    }
+
+    @Test
+    public void qualifiesForPromotionReturnsFalseIfTheNewPriceIsGreaterThan30PercentLower(){
+        Product product = new Product(Double.valueOf(10.00));
+
+        boolean result = redPencilPromoter.qualifiesForPromotion(product, Double.valueOf(6.99));
+
+        assertFalse(result);
+    }
+
+    @Test
+    public void qualifiesForPromotionReturnsTrueIfTheNewPriceIsExactly30PercentLower(){
+        Product product = new Product(Double.valueOf(10.00));
+
+        boolean result = redPencilPromoter.qualifiesForPromotion(product, Double.valueOf(7.00));
+
+        assertTrue(result);
+    }
+
+
 }
