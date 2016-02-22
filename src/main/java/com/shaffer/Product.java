@@ -8,7 +8,9 @@ import java.util.Date;
 public class Product {
 
     private Double price;
-    private Date priceChangedDate;
+    protected Date priceChangedDate;
+
+    public Product(){};
 
     public Product(Double price){
         setPrice(price);

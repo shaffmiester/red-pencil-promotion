@@ -4,6 +4,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import static org.junit.Assert.*;
 
 /**
@@ -12,10 +15,20 @@ import static org.junit.Assert.*;
 public class RedPencilPromoterTest {
 
     private RedPencilPromoter redPencilPromoter = new RedPencilPromoter();
+    private static GregorianCalendar thirtyDaysInThePast = new GregorianCalendar();
+    private GregorianCalendar today = new GregorianCalendar();
+    private static Double TEN_DOLLARS = Double.valueOf(10.00);
+
+    static{
+        thirtyDaysInThePast.add(GregorianCalendar.DATE, - 30);
+    }
+
+    Product testProduct;
 
     @Before
     public void setUp() throws Exception {
-
+        testProduct = new ProductTester(TEN_DOLLARS);
+        ((ProductTester) testProduct).setAdjustedDate(thirtyDaysInThePast.getTime());
     }
 
     @After
@@ -25,48 +38,77 @@ public class RedPencilPromoterTest {
 
     @Test
     public void qualifiesForPromotionReturnsFaseIfTheSameValueIsPassedIn(){
-        Product product = new Product(Double.valueOf(15.00));
-
-        boolean result = redPencilPromoter.qualifiesForPromotion(product, Double.valueOf(15.00));
+        boolean result = redPencilPromoter.qualifiesForPromotion(testProduct, Double.valueOf(TEN_DOLLARS));
 
         assertFalse(result);
     }
 
     @Test
     public void qualifiesForPromotionReturnsTrueIfnewPriceIsExactly5PercentLower(){
-        Product product = new Product(Double.valueOf(10.00));
-
-        boolean result = redPencilPromoter.qualifiesForPromotion(product, Double.valueOf(9.50));
+        boolean result = redPencilPromoter.qualifiesForPromotion(testProduct, Double.valueOf(9.50));
 
         assertTrue(result);
     }
 
     @Test
     public void qualifiesForPromotionReturnsFalseIfnewPriceOneCentLessThan5PercentLower(){
-        Product product = new Product(Double.valueOf(10.00));
-
-        boolean result = redPencilPromoter.qualifiesForPromotion(product, Double.valueOf(9.51));
+        boolean result = redPencilPromoter.qualifiesForPromotion(testProduct, Double.valueOf(9.51));
 
         assertFalse(result);
     }
 
     @Test
     public void qualifiesForPromotionReturnsFalseIfTheNewPriceIsGreaterThan30PercentLower(){
-        Product product = new Product(Double.valueOf(10.00));
-
-        boolean result = redPencilPromoter.qualifiesForPromotion(product, Double.valueOf(6.99));
+        boolean result = redPencilPromoter.qualifiesForPromotion(testProduct, Double.valueOf(6.99));
 
         assertFalse(result);
     }
 
     @Test
     public void qualifiesForPromotionReturnsTrueIfTheNewPriceIsExactly30PercentLower(){
-        Product product = new Product(Double.valueOf(10.00));
-
-        boolean result = redPencilPromoter.qualifiesForPromotion(product, Double.valueOf(7.00));
+        boolean result = redPencilPromoter.qualifiesForPromotion(testProduct, Double.valueOf(7.00));
 
         assertTrue(result);
     }
+
+    @Test
+    public void qualifiesForPromotionReturnsFaleIfTheNewDateIsTheSameDateAsTheOriginalPriceChangedDate(){
+        setTestProductTestDays(testProduct, 0);
+
+        boolean result = redPencilPromoter.qualifiesForPromotion(testProduct, ProductTest.INITIAL_PRICE * .90);
+
+        assertFalse(result);
+    }
+
+    private void setTestProductTestDays(Product product, int days){
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.add(GregorianCalendar.DATE, days);
+
+        ((ProductTester) product).setAdjustedDate(cal.getTime());
+    }
+
+    private class ProductTester extends Product {
+
+        private ProductTester(Double price){
+            super(price);
+        }
+
+        private GregorianCalendar adjustedDate;
+
+
+        private void setAdjustedDate(Date adjustedDate){
+            this.priceChangedDate = adjustedDate;
+        }
+
+    }
+
+    /*private class RedPencilPromoterTester extends RedPencilPromoter {
+
+        private void setPriceChangedDate(Date adjustedDate){
+            this.priceChangedDate = adjustedDate;
+        }
+
+    }*/
 
 
 }
