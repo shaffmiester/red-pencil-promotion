@@ -74,6 +74,12 @@ public class ProductTest {
         verify(mockRedPencilPromoter, times(1)).calculateRedPencilPromtionQualification(product, new Double("8.00"));
     }
 
+    @Test
+    public void test(){
+        long test = 30L * 24L * 60L * 60L * 1000L;
+        System.out.println(test);
+    }
+
 
 
 

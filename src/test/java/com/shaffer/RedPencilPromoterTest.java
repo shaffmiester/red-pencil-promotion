@@ -94,41 +94,6 @@ public class RedPencilPromoterTest {
         assertNotNull(redPencilPromoter.getPromotionStartDate());
     }
 
-    Timer timer;
-
-    @Test
-    public void timerTesting() throws InterruptedException{
-        new Reminder(2);
-
-        System.out.println("Task started at: " + new Date());
-
-        Thread.sleep(3000);
-
-        //org.mockito.internal.util.Timer
-    }
-
-
-    public class Reminder {
-        Timer timer;
-
-        public Reminder(int seconds){
-            timer = new Timer();
-            timer.schedule(new RemindMeTask(), seconds * 1000);
-        }
-
-
-        private class RemindMeTask extends TimerTask {
-
-            @Override
-            public void run() {
-                System.out.println("Task Completed at: " + new Date());
-                timer.cancel();
-            }
-
-        }
-    }
-
-
 
     @Test
     public void isARedPencilPromotionReturnsFalseIfTheProductDoesNotQualifyForAPromotion(){
@@ -140,10 +105,23 @@ public class RedPencilPromoterTest {
     }
 
     @Test
-    public void isARedPencilPromotionReturnsTrueIfTheProductDoesQualifyForAPromotion(){
+    public void isARedPencilPromotionReturnsTrueIfTheProductDoesQualifyForAPromotion() throws Exception{
         redPencilPromoter.calculateRedPencilPromtionQualification(testProduct, ProductTest.INITIAL_PRICE * .90);
 
         assertTrue(redPencilPromoter.isARedPencilPromotion());
+    }
+
+    @Test
+    public void isARedPencilPromotionGetsSetToFalseAfterTimePeriodHasElapsed() throws Exception{
+        RedPencilPromoterTester promoterTester = new RedPencilPromoterTester();
+        promoterTester.promotionLengthInMilliseconds = 4000L;
+
+        promoterTester.calculateRedPencilPromtionQualification(testProduct, ProductTest.INITIAL_PRICE * .90);
+
+        assertTrue(promoterTester.isARedPencilPromotion());
+        Thread.sleep(5000);
+        assertFalse(promoterTester.isARedPencilPromotion());
+
     }
 
 
@@ -165,6 +143,18 @@ public class RedPencilPromoterTest {
 
         private void setAdjustedDate(Date adjustedDate){
             this.priceChangedDate = adjustedDate;
+        }
+
+    }
+
+    private class RedPencilPromoterTester extends RedPencilPromoter{
+
+        public RedPencilPromoterTester(){
+            super();
+        }
+
+        public void setPromotionDuration(long promotionDurationMilliseconds){
+            this.promotionLengthInMilliseconds = promotionDurationMilliseconds;
         }
 
     }
