@@ -26,7 +26,7 @@ public class Product {
     public void setPrice(double price){
         priceChangedDate = new Date();
         if(redPencilPromoter != null){
-            redPencilPromoter.qualifiesForPromotion(this, price);
+            redPencilPromoter.calculateRedPencilPromtionQualification(this, price);
         }
         this.price = price;
     }

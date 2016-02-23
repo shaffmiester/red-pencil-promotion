@@ -40,46 +40,46 @@ public class RedPencilPromoterTest {
 
     @Test
     public void qualifiesForPromotionReturnsFaseIfTheSameValueIsPassedIn(){
-        boolean result = redPencilPromoter.qualifiesForPromotion(testProduct, Double.valueOf(TEN_DOLLARS));
+        redPencilPromoter.calculateRedPencilPromtionQualification(testProduct, Double.valueOf(TEN_DOLLARS));
 
-        assertFalse(result);
+        assertFalse(redPencilPromoter.isARedPencilPromotion());
     }
 
     @Test
     public void qualifiesForPromotionReturnsTrueIfnewPriceIsExactly5PercentLower(){
-        boolean result = redPencilPromoter.qualifiesForPromotion(testProduct, Double.valueOf(9.50));
+        redPencilPromoter.calculateRedPencilPromtionQualification(testProduct, Double.valueOf(9.50));
 
-        assertTrue(result);
+        assertTrue(redPencilPromoter.isARedPencilPromotion());
     }
 
     @Test
     public void qualifiesForPromotionReturnsFalseIfnewPriceOneCentLessThan5PercentLower(){
-        boolean result = redPencilPromoter.qualifiesForPromotion(testProduct, Double.valueOf(9.51));
+        redPencilPromoter.calculateRedPencilPromtionQualification(testProduct, Double.valueOf(9.51));
 
-        assertFalse(result);
+        assertFalse(redPencilPromoter.isARedPencilPromotion());
     }
 
     @Test
     public void qualifiesForPromotionReturnsFalseIfTheNewPriceIsGreaterThan30PercentLower(){
-        boolean result = redPencilPromoter.qualifiesForPromotion(testProduct, Double.valueOf(6.99));
+        redPencilPromoter.calculateRedPencilPromtionQualification(testProduct, Double.valueOf(6.99));
 
-        assertFalse(result);
+        assertFalse(redPencilPromoter.isARedPencilPromotion());
     }
 
     @Test
     public void qualifiesForPromotionReturnsTrueIfTheNewPriceIsExactly30PercentLower(){
-        boolean result = redPencilPromoter.qualifiesForPromotion(testProduct, Double.valueOf(7.00));
+        redPencilPromoter.calculateRedPencilPromtionQualification(testProduct, Double.valueOf(7.00));
 
-        assertTrue(result);
+        assertTrue(redPencilPromoter.isARedPencilPromotion());
     }
 
     @Test
     public void qualifiesForPromotionReturnsFalseIfTheNewDateIsTheSameDateAsTheOriginalPriceChangedDate(){
         setTestProductTestDays(testProduct, 0);
 
-        boolean result = redPencilPromoter.qualifiesForPromotion(testProduct, ProductTest.INITIAL_PRICE * .90);
+        redPencilPromoter.calculateRedPencilPromtionQualification(testProduct, ProductTest.INITIAL_PRICE * .90);
 
-        assertFalse(result);
+        assertFalse(redPencilPromoter.isARedPencilPromotion());
     }
 
     Timer timer;
@@ -122,14 +122,14 @@ public class RedPencilPromoterTest {
     public void isARedPencilPromotionReturnsFalseIfTheProductDoesNotQualifyForAPromotion(){
         setTestProductTestDays(testProduct, 0);
 
-        redPencilPromoter.qualifiesForPromotion(testProduct, ProductTest.INITIAL_PRICE * .90);
+        redPencilPromoter.calculateRedPencilPromtionQualification(testProduct, ProductTest.INITIAL_PRICE * .90);
 
         assertFalse(redPencilPromoter.isARedPencilPromotion());
     }
 
     @Test
     public void isARedPencilPromotionReturnsTrueIfTheProductDoesQualifyForAPromotion(){
-        redPencilPromoter.qualifiesForPromotion(testProduct, ProductTest.INITIAL_PRICE * .90);
+        redPencilPromoter.calculateRedPencilPromtionQualification(testProduct, ProductTest.INITIAL_PRICE * .90);
 
         assertTrue(redPencilPromoter.isARedPencilPromotion());
     }

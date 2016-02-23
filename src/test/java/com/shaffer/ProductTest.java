@@ -71,7 +71,7 @@ public class ProductTest {
     public void setPriceDelegatesToRedPencilPromoterToSeeIfQualifesForThePromotions(){
         product.setPrice(new Double(8.00));
 
-        verify(mockRedPencilPromoter, times(1)).qualifiesForPromotion(product, new Double("8.00"));
+        verify(mockRedPencilPromoter, times(1)).calculateRedPencilPromtionQualification(product, new Double("8.00"));
     }
 
 

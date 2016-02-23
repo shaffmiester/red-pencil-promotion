@@ -10,12 +10,10 @@ public class RedPencilPromoter {
 
     private boolean isARedPencilPromotion;
 
-      public boolean qualifiesForPromotion(Product product, Double newPrice){
+      public void calculateRedPencilPromtionQualification(Product product, Double newPrice){
           Double originalPrice = product.getPrice();
-          boolean returnValue = discountIsAtLeast5Percent(originalPrice, newPrice) && discountIsAtMostIs30Percent(originalPrice, newPrice)
+          isARedPencilPromotion = discountIsAtLeast5Percent(originalPrice, newPrice) && discountIsAtMostIs30Percent(originalPrice, newPrice)
                   && priceChangedDateAtLeast30DaysAgo(product);
-          this.isARedPencilPromotion = returnValue;
-          return returnValue;
       }
 
       private boolean discountIsAtLeast5Percent(Double originalPrice, Double newPrice){
