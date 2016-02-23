@@ -16,14 +16,14 @@ import static org.junit.Assert.*;
  */
 public class RedPencilPromoterTest {
 
-    private RedPencilPromoter redPencilPromoter = new RedPencilPromoter();
     private static GregorianCalendar thirtyDaysInThePast = new GregorianCalendar();
     private GregorianCalendar today = new GregorianCalendar();
     private static Double TEN_DOLLARS = Double.valueOf(10.00);
-
     static{
         thirtyDaysInThePast.add(GregorianCalendar.DATE, - 30);
     }
+
+    private RedPencilPromoter redPencilPromoter = new RedPencilPromoter();
 
     Product testProduct;
 
@@ -80,6 +80,18 @@ public class RedPencilPromoterTest {
         redPencilPromoter.calculateRedPencilPromtionQualification(testProduct, ProductTest.INITIAL_PRICE * .90);
 
         assertFalse(redPencilPromoter.isARedPencilPromotion());
+    }
+
+    @Test
+    public void whenTheRedPencilPromotionIsCreatedTheStartDateIsInitializedToNull(){
+        assertNull(redPencilPromoter.getPromotionStartDate());
+    }
+
+    @Test
+    public void onceProductQualifiesForAPromotionTheStartDateIsSet(){
+        redPencilPromoter.calculateRedPencilPromtionQualification(testProduct, Double.valueOf(7.00));
+
+        assertNotNull(redPencilPromoter.getPromotionStartDate());
     }
 
     Timer timer;

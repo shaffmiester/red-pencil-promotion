@@ -11,12 +11,9 @@ public class Product {
     protected Date priceChangedDate;
     private RedPencilPromoter redPencilPromoter;
 
-    public Product(){};
-
     public Product(Double price, RedPencilPromoter redPencilPromoter){
-        setPrice(price);
         setRedPencilPromoter(redPencilPromoter);
-
+        setPrice(price);
     }
 
     public Double getPrice(){
@@ -25,10 +22,9 @@ public class Product {
 
     public void setPrice(double price){
         priceChangedDate = new Date();
-        if(redPencilPromoter != null){
-            redPencilPromoter.calculateRedPencilPromtionQualification(this, price);
-        }
         this.price = price;
+        redPencilPromoter.calculateRedPencilPromtionQualification(this, price);
+
     }
 
     public Date getPriceChangedDate(){
@@ -36,6 +32,9 @@ public class Product {
     }
 
     public void setRedPencilPromoter(RedPencilPromoter redPencilPromoter){
+        if(redPencilPromoter == null){
+            throw new IllegalArgumentException("redPencilPromoter: Cannot be null");
+        }
         this.redPencilPromoter = redPencilPromoter;
     }
 }
