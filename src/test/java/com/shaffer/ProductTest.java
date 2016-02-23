@@ -8,7 +8,6 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -23,12 +22,12 @@ public class ProductTest {
     RedPencilPromoter mockRedPencilPromoter;
 
     public static Double INITIAL_PRICE = Double.valueOf("10.00");
-    private Product product = new Product(INITIAL_PRICE);
+    private Product product;
 
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
-        product.setSetRedPencilPromoter(mockRedPencilPromoter);
+        product = new Product(INITIAL_PRICE, mockRedPencilPromoter);
     }
 
 

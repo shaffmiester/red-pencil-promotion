@@ -27,8 +27,7 @@ public class RedPencilPromoterTest {
 
     @Before
     public void setUp() throws Exception {
-        testProduct = new ProductTester(TEN_DOLLARS);
-        testProduct.setSetRedPencilPromoter(redPencilPromoter);
+        testProduct = new ProductTester(TEN_DOLLARS, redPencilPromoter);
         ((ProductTester) testProduct).setAdjustedDate(thirtyDaysInThePast.getTime());
     }
 
@@ -91,8 +90,8 @@ public class RedPencilPromoterTest {
 
     private class ProductTester extends Product {
 
-        private ProductTester(Double price){
-            super(price);
+        private ProductTester(Double price, RedPencilPromoter redPencilPromoter){
+            super(price, redPencilPromoter);
         }
 
         private GregorianCalendar adjustedDate;

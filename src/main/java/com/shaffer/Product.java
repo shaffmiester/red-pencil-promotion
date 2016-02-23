@@ -9,12 +9,14 @@ public class Product {
 
     private Double price;
     protected Date priceChangedDate;
-    private RedPencilPromoter setRedPencilPromoter;
+    private RedPencilPromoter redPencilPromoter;
 
     public Product(){};
 
-    public Product(Double price){
+    public Product(Double price, RedPencilPromoter redPencilPromoter){
         setPrice(price);
+        setRedPencilPromoter(redPencilPromoter);
+
     }
 
     public Double getPrice(){
@@ -23,8 +25,8 @@ public class Product {
 
     public void setPrice(double price){
         priceChangedDate = new Date();
-        if(setRedPencilPromoter != null){
-            setRedPencilPromoter.qualifiesForPromotion(this, price);
+        if(redPencilPromoter != null){
+            redPencilPromoter.qualifiesForPromotion(this, price);
         }
         this.price = price;
     }
@@ -33,7 +35,7 @@ public class Product {
         return (Date) priceChangedDate.clone();
     }
 
-    public void setSetRedPencilPromoter(RedPencilPromoter redPencilPromoter){
-        this.setRedPencilPromoter = redPencilPromoter;
+    public void setRedPencilPromoter(RedPencilPromoter redPencilPromoter){
+        this.redPencilPromoter = redPencilPromoter;
     }
 }
