@@ -28,6 +28,7 @@ public class RedPencilPromoterTest {
     @Before
     public void setUp() throws Exception {
         testProduct = new ProductTester(TEN_DOLLARS);
+        testProduct.setSetRedPencilPromoter(redPencilPromoter);
         ((ProductTester) testProduct).setAdjustedDate(thirtyDaysInThePast.getTime());
     }
 
@@ -80,6 +81,7 @@ public class RedPencilPromoterTest {
         assertFalse(result);
     }
 
+
     private void setTestProductTestDays(Product product, int days){
         GregorianCalendar cal = new GregorianCalendar();
         cal.add(GregorianCalendar.DATE, days);
@@ -102,13 +104,7 @@ public class RedPencilPromoterTest {
 
     }
 
-    /*private class RedPencilPromoterTester extends RedPencilPromoter {
 
-        private void setPriceChangedDate(Date adjustedDate){
-            this.priceChangedDate = adjustedDate;
-        }
-
-    }*/
 
 
 }

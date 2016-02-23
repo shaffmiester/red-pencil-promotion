@@ -1,29 +1,45 @@
 package com.shaffer;
 
+import org.junit.Before;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.junit.Test;
+import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
 import java.util.Date;
 /**
  * Created by Joel on 2/20/16.
  */
+@RunWith(MockitoJUnitRunner.class)
 public class ProductTest {
 
-
+    @Mock
+    RedPencilPromoter mockRedPencilPromoter;
 
     public static Double INITIAL_PRICE = Double.valueOf("10.00");
+    private Product product = new Product(INITIAL_PRICE);
+
+    @Before
+    public void setUp(){
+        MockitoAnnotations.initMocks(this);
+        product.setSetRedPencilPromoter(mockRedPencilPromoter);
+    }
+
 
     @Test
     public void hasAConstructorThatAllowsYouToSetThePrice(){
-        Product product = new Product(INITIAL_PRICE);
-
         assertEquals(INITIAL_PRICE, product.getPrice());
     }
 
     @Test
     public void allowsYouToSetThePrice(){
         Double newPrice = Double.valueOf("15.00");
-        Product product = new Product(INITIAL_PRICE);
 
         product.setPrice(newPrice);
 
@@ -33,8 +49,6 @@ public class ProductTest {
 
     @Test
     public void priceChageDateGetsSetWhenCreated() throws Exception{
-        Product product = new Product(INITIAL_PRICE);
-
         assertNotNull(product.getPriceChangedDate());
 
         Thread.sleep(1000);
@@ -45,13 +59,20 @@ public class ProductTest {
     public void priceChageDateGetsSetWhenThePriceIsChanged() throws Exception{
         Date originalDate = new Date();
 
-        Product product = new Product(INITIAL_PRICE);
         Date initialPriceChangeDate = product.getPriceChangedDate();
         Thread.sleep(1000);
         product.setPrice(new Double(8.00));
         Date updatedPriceChangeDate = product.getPriceChangedDate();
 
         assertTrue(initialPriceChangeDate.before(updatedPriceChangeDate));
+    }
+
+
+    @Test
+    public void setPriceDelegatesToRedPencilPromoterToSeeIfQualifesForThePromotions(){
+        product.setPrice(new Double(8.00));
+
+        verify(mockRedPencilPromoter, times(1)).qualifiesForPromotion(product, new Double("8.00"));
     }
 
 
