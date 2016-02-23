@@ -28,6 +28,10 @@ public class RedPencilPromoter {
           return product.getPriceChangedDate().before(thirtyDaysInThePast.getTime());
       }
 
+      public boolean isARedPencilPromotion(){
+          return false;
+      }
+
       protected GregorianCalendar getCurrentDate(){
             return new GregorianCalendar();
       }

@@ -6,6 +6,8 @@ import org.junit.Test;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static org.junit.Assert.*;
 
@@ -72,12 +74,57 @@ public class RedPencilPromoterTest {
     }
 
     @Test
-    public void qualifiesForPromotionReturnsFaleIfTheNewDateIsTheSameDateAsTheOriginalPriceChangedDate(){
+    public void qualifiesForPromotionReturnsFalseIfTheNewDateIsTheSameDateAsTheOriginalPriceChangedDate(){
         setTestProductTestDays(testProduct, 0);
 
         boolean result = redPencilPromoter.qualifiesForPromotion(testProduct, ProductTest.INITIAL_PRICE * .90);
 
         assertFalse(result);
+    }
+
+    Timer timer;
+
+    @Test
+    public void timerTesting() throws InterruptedException{
+        new Reminder(5);
+
+        System.out.println("Task started at: " + new Date());
+
+        Thread.sleep(10000);
+
+        //org.mockito.internal.util.Timer
+    }
+
+
+    public class Reminder {
+        Timer timer;
+
+        public Reminder(int seconds){
+            timer = new Timer();
+            timer.schedule(new RemindMeTask(), seconds * 1000);
+        }
+
+
+        private class RemindMeTask extends TimerTask {
+
+            @Override
+            public void run() {
+                System.out.println("Task Completed at: " + new Date());
+                timer.cancel();
+            }
+
+        }
+    }
+
+
+
+    @Test
+    public void isARedPencilPromotionReturnsFalseIfTheProductDoesNotQualifyForAPromotion(){
+        setTestProductTestDays(testProduct, 0);
+
+        boolean result = redPencilPromoter.qualifiesForPromotion(testProduct, ProductTest.INITIAL_PRICE * .90);
+
+        assertFalse(redPencilPromoter.isARedPencilPromotion());
     }
 
 
