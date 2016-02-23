@@ -8,10 +8,14 @@ import java.util.GregorianCalendar;
  */
 public class RedPencilPromoter {
 
+    private boolean isARedPencilPromotion;
+
       public boolean qualifiesForPromotion(Product product, Double newPrice){
           Double originalPrice = product.getPrice();
-          return discountIsAtLeast5Percent(originalPrice, newPrice) && discountIsAtMostIs30Percent(originalPrice, newPrice)
+          boolean returnValue = discountIsAtLeast5Percent(originalPrice, newPrice) && discountIsAtMostIs30Percent(originalPrice, newPrice)
                   && priceChangedDateAtLeast30DaysAgo(product);
+          this.isARedPencilPromotion = returnValue;
+          return returnValue;
       }
 
       private boolean discountIsAtLeast5Percent(Double originalPrice, Double newPrice){
@@ -29,7 +33,7 @@ public class RedPencilPromoter {
       }
 
       public boolean isARedPencilPromotion(){
-          return false;
+          return isARedPencilPromotion;
       }
 
       protected GregorianCalendar getCurrentDate(){
